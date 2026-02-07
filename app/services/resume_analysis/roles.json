@@ -1,0 +1,32 @@
+{
+  "data scientist": {
+    "foundation": ["python", "statistics", "mathematics", "data analysis"],
+    "core": ["pandas", "numpy", "scikit-learn", "sql", "machine learning"],
+    "advanced": ["deep learning", "tensorflow", "pytorch", "nlp", "computer vision"],
+    "projects": ["data science", "jupyter", "matplotlib", "seaborn"]
+  },
+  "software engineer": {
+    "foundation": ["python", "java", "javascript", "algorithms", "data structures"],
+    "core": ["react", "node.js", "sql", "rest api", "git"],
+    "advanced": ["microservices", "docker", "kubernetes", "aws", "system design"],
+    "projects": ["testing", "ci/cd", "agile", "scrum"]
+  },
+  "ml engineer": {
+    "foundation": ["python", "statistics", "machine learning", "algorithms"],
+    "core": ["tensorflow", "pytorch", "scikit-learn", "pandas", "numpy"],
+    "advanced": ["deep learning", "nlp", "computer vision", "mlops", "docker"],
+    "projects": ["jupyter", "data science", "model deployment", "aws"]
+  },
+  "backend developer": {
+    "foundation": ["python", "java", "javascript", "sql", "algorithms"],
+    "core": ["django", "flask", "fastapi", "node.js", "express", "postgresql"],
+    "advanced": ["microservices", "docker", "kubernetes", "aws", "system design"],
+    "projects": ["rest api", "graphql", "testing", "ci/cd"]
+  },
+  "frontend developer": {
+    "foundation": ["html", "css", "javascript", "algorithms"],
+    "core": ["react", "angular", "vue", "typescript", "node.js"],
+    "advanced": ["webpack", "docker", "aws", "graphql"],
+    "projects": ["testing", "cypress", "selenium", "agile"]
+  }
+}

@@ -1,0 +1,530 @@
+{
+  "python": [
+    {
+      "platform": "NPTEL",
+      "title": "Programming, Data Structures and Algorithms using Python",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_cs92"
+    },
+    {
+      "platform": "Coursera",
+      "title": "Python for Everybody",
+      "url": "https://www.coursera.org/specializations/python"
+    }
+  ],
+  "statistics": [
+    {
+      "platform": "NPTEL",
+      "title": "Introduction to Probability and Statistics",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_ma29"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Statistics",
+      "url": "https://www.edx.org/course/introduction-to-statistics"
+    }
+  ],
+  "machine learning": [
+    {
+      "platform": "NPTEL",
+      "title": "Machine Learning",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_cs75"
+    },
+    {
+      "platform": "Coursera",
+      "title": "Machine Learning by Andrew Ng",
+      "url": "https://www.coursera.org/learn/machine-learning"
+    }
+  ],
+  "deep learning": [
+    {
+      "platform": "NPTEL",
+      "title": "Deep Learning",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_cs76"
+    },
+    {
+      "platform": "Coursera",
+      "title": "Deep Learning Specialization",
+      "url": "https://www.coursera.org/specializations/deep-learning"
+    }
+  ],
+  "data science": [
+    {
+      "platform": "NPTEL",
+      "title": "Data Science for Engineers",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_ds01"
+    },
+    {
+      "platform": "Coursera",
+      "title": "Data Science Specialization",
+      "url": "https://www.coursera.org/specializations/jhu-data-science"
+    }
+  ],
+  "sql": [
+    {
+      "platform": "NPTEL",
+      "title": "Database Management System",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_cs50"
+    },
+    {
+      "platform": "Coursera",
+      "title": "SQL for Data Science",
+      "url": "https://www.coursera.org/learn/sql-for-data-science"
+    }
+  ],
+  "react": [
+    {
+      "platform": "Coursera",
+      "title": "React Basics",
+      "url": "https://www.coursera.org/learn/react-basics"
+    },
+    {
+      "platform": "edX",
+      "title": "React Development",
+      "url": "https://www.edx.org/course/react-development"
+    }
+  ],
+  "node.js": [
+    {
+      "platform": "Coursera",
+      "title": "Server-side Development with NodeJS",
+      "url": "https://www.coursera.org/learn/server-side-nodejs"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Node.js",
+      "url": "https://www.edx.org/course/introduction-to-nodejs"
+    }
+  ],
+  "docker": [
+    {
+      "platform": "Coursera",
+      "title": "Docker for Developers",
+      "url": "https://www.coursera.org/learn/docker-for-developers"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Docker",
+      "url": "https://www.edx.org/course/introduction-to-docker"
+    }
+  ],
+  "aws": [
+    {
+      "platform": "Coursera",
+      "title": "AWS Fundamentals",
+      "url": "https://www.coursera.org/specializations/aws-fundamentals"
+    },
+    {
+      "platform": "edX",
+      "title": "AWS Cloud Practitioner",
+      "url": "https://www.edx.org/course/aws-cloud-practitioner"
+    }
+  ],
+  "algorithms": [
+    {
+      "platform": "NPTEL",
+      "title": "Design and Analysis of Algorithms",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_cs99"
+    },
+    {
+      "platform": "Coursera",
+      "title": "Algorithms Specialization",
+      "url": "https://www.coursera.org/specializations/algorithms"
+    }
+  ],
+  "data structures": [
+    {
+      "platform": "NPTEL",
+      "title": "Data Structures and Algorithms",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_cs98"
+    },
+    {
+      "platform": "Coursera",
+      "title": "Data Structures and Algorithms",
+      "url": "https://www.coursera.org/specializations/data-structures-algorithms"
+    }
+  ],
+  "nlp": [
+    {
+      "platform": "NPTEL",
+      "title": "Natural Language Processing",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_cs77"
+    },
+    {
+      "platform": "Coursera",
+      "title": "Natural Language Processing Specialization",
+      "url": "https://www.coursera.org/specializations/natural-language-processing"
+    }
+  ],
+  "computer vision": [
+    {
+      "platform": "NPTEL",
+      "title": "Computer Vision",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_cs78"
+    },
+    {
+      "platform": "Coursera",
+      "title": "Computer Vision Specialization",
+      "url": "https://www.coursera.org/specializations/computer-vision"
+    }
+  ],
+  "tensorflow": [
+    {
+      "platform": "Coursera",
+      "title": "TensorFlow in Practice",
+      "url": "https://www.coursera.org/specializations/tensorflow-in-practice"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to TensorFlow",
+      "url": "https://www.edx.org/course/introduction-to-tensorflow"
+    }
+  ],
+  "pytorch": [
+    {
+      "platform": "Coursera",
+      "title": "Deep Learning with PyTorch",
+      "url": "https://www.coursera.org/learn/deep-learning-pytorch"
+    },
+    {
+      "platform": "edX",
+      "title": "PyTorch Fundamentals",
+      "url": "https://www.edx.org/course/pytorch-fundamentals"
+    }
+  ],
+  "pandas": [
+    {
+      "platform": "Coursera",
+      "title": "Data Manipulation with pandas",
+      "url": "https://www.coursera.org/learn/data-manipulation-with-pandas"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to pandas",
+      "url": "https://www.edx.org/course/introduction-to-pandas"
+    }
+  ],
+  "numpy": [
+    {
+      "platform": "Coursera",
+      "title": "NumPy for Data Science",
+      "url": "https://www.coursera.org/learn/numpy-for-data-science"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to NumPy",
+      "url": "https://www.edx.org/course/introduction-to-numpy"
+    }
+  ],
+  "scikit-learn": [
+    {
+      "platform": "Coursera",
+      "title": "Machine Learning with scikit-learn",
+      "url": "https://www.coursera.org/learn/machine-learning-with-scikit-learn"
+    },
+    {
+      "platform": "edX",
+      "title": "scikit-learn for Machine Learning",
+      "url": "https://www.edx.org/course/scikit-learn-for-machine-learning"
+    }
+  ],
+  "django": [
+    {
+      "platform": "Coursera",
+      "title": "Django for Everybody",
+      "url": "https://www.coursera.org/specializations/django"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Django",
+      "url": "https://www.edx.org/course/introduction-to-django"
+    }
+  ],
+  "flask": [
+    {
+      "platform": "Coursera",
+      "title": "Flask Web Development",
+      "url": "https://www.coursera.org/learn/flask-web-development"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Flask",
+      "url": "https://www.edx.org/course/introduction-to-flask"
+    }
+  ],
+  "fastapi": [
+    {
+      "platform": "Coursera",
+      "title": "FastAPI for Python Web Development",
+      "url": "https://www.coursera.org/learn/fastapi"
+    },
+    {
+      "platform": "edX",
+      "title": "Building APIs with FastAPI",
+      "url": "https://www.edx.org/course/building-apis-with-fastapi"
+    }
+  ],
+  "java": [
+    {
+      "platform": "NPTEL",
+      "title": "Programming in Java",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_cs15"
+    },
+    {
+      "platform": "Coursera",
+      "title": "Java Programming Specialization",
+      "url": "https://www.coursera.org/specializations/java-programming"
+    }
+  ],
+  "javascript": [
+    {
+      "platform": "Coursera",
+      "title": "JavaScript for Beginners",
+      "url": "https://www.coursera.org/specializations/javascript-beginner"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to JavaScript",
+      "url": "https://www.edx.org/course/introduction-to-javascript"
+    }
+  ],
+  "kubernetes": [
+    {
+      "platform": "Coursera",
+      "title": "Introduction to Kubernetes",
+      "url": "https://www.coursera.org/learn/introduction-to-kubernetes"
+    },
+    {
+      "platform": "edX",
+      "title": "Kubernetes Fundamentals",
+      "url": "https://www.edx.org/course/kubernetes-fundamentals"
+    }
+  ],
+  "microservices": [
+    {
+      "platform": "Coursera",
+      "title": "Microservices Architecture",
+      "url": "https://www.coursera.org/learn/microservices-architecture"
+    },
+    {
+      "platform": "edX",
+      "title": "Building Microservices",
+      "url": "https://www.edx.org/course/building-microservices"
+    }
+  ],
+  "system design": [
+    {
+      "platform": "Coursera",
+      "title": "System Design Fundamentals",
+      "url": "https://www.coursera.org/learn/system-design"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to System Design",
+      "url": "https://www.edx.org/course/introduction-to-system-design"
+    }
+  ],
+  "rest api": [
+    {
+      "platform": "Coursera",
+      "title": "REST API Development",
+      "url": "https://www.coursera.org/learn/rest-api-development"
+    },
+    {
+      "platform": "edX",
+      "title": "Building REST APIs",
+      "url": "https://www.edx.org/course/building-rest-apis"
+    }
+  ],
+  "postgresql": [
+    {
+      "platform": "Coursera",
+      "title": "PostgreSQL for Everybody",
+      "url": "https://www.coursera.org/specializations/postgresql-for-everybody"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to PostgreSQL",
+      "url": "https://www.edx.org/course/introduction-to-postgresql"
+    }
+  ],
+  "git": [
+    {
+      "platform": "Coursera",
+      "title": "Version Control with Git",
+      "url": "https://www.coursera.org/learn/version-control-with-git"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Git",
+      "url": "https://www.edx.org/course/introduction-to-git"
+    }
+  ],
+  "testing": [
+    {
+      "platform": "Coursera",
+      "title": "Software Testing",
+      "url": "https://www.coursera.org/learn/software-testing"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Software Testing",
+      "url": "https://www.edx.org/course/introduction-to-software-testing"
+    }
+  ],
+  "jupyter": [
+    {
+      "platform": "Coursera",
+      "title": "Jupyter Notebook for Data Science",
+      "url": "https://www.coursera.org/learn/jupyter-notebook"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Jupyter",
+      "url": "https://www.edx.org/course/introduction-to-jupyter"
+    }
+  ],
+  "matplotlib": [
+    {
+      "platform": "Coursera",
+      "title": "Data Visualization with matplotlib",
+      "url": "https://www.coursera.org/learn/data-visualization-matplotlib"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to matplotlib",
+      "url": "https://www.edx.org/course/introduction-to-matplotlib"
+    }
+  ],
+  "seaborn": [
+    {
+      "platform": "Coursera",
+      "title": "Data Visualization with seaborn",
+      "url": "https://www.coursera.org/learn/data-visualization-seaborn"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to seaborn",
+      "url": "https://www.edx.org/course/introduction-to-seaborn"
+    }
+  ],
+  "data analysis": [
+    {
+      "platform": "NPTEL",
+      "title": "Data Analysis and Interpretation",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_ds02"
+    },
+    {
+      "platform": "Coursera",
+      "title": "Data Analysis Specialization",
+      "url": "https://www.coursera.org/specializations/data-analysis"
+    }
+  ],
+  "mathematics": [
+    {
+      "platform": "NPTEL",
+      "title": "Mathematics for Data Science",
+      "url": "https://onlinecourses.nptel.ac.in/noc22_ma30"
+    },
+    {
+      "platform": "Coursera",
+      "title": "Mathematics for Machine Learning",
+      "url": "https://www.coursera.org/specializations/mathematics-machine-learning"
+    }
+  ],
+  "angular": [
+    {
+      "platform": "Coursera",
+      "title": "Angular Framework",
+      "url": "https://www.coursera.org/learn/angular-framework"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Angular",
+      "url": "https://www.edx.org/course/introduction-to-angular"
+    }
+  ],
+  "vue": [
+    {
+      "platform": "Coursera",
+      "title": "Vue.js Framework",
+      "url": "https://www.coursera.org/learn/vuejs-framework"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Vue.js",
+      "url": "https://www.edx.org/course/introduction-to-vuejs"
+    }
+  ],
+  "typescript": [
+    {
+      "platform": "Coursera",
+      "title": "TypeScript for JavaScript Developers",
+      "url": "https://www.coursera.org/learn/typescript"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to TypeScript",
+      "url": "https://www.edx.org/course/introduction-to-typescript"
+    }
+  ],
+  "express": [
+    {
+      "platform": "Coursera",
+      "title": "Express.js Web Development",
+      "url": "https://www.coursera.org/learn/expressjs"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Express.js",
+      "url": "https://www.edx.org/course/introduction-to-expressjs"
+    }
+  ],
+  "ci/cd": [
+    {
+      "platform": "Coursera",
+      "title": "CI/CD Pipeline Development",
+      "url": "https://www.coursera.org/learn/cicd-pipeline"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to CI/CD",
+      "url": "https://www.edx.org/course/introduction-to-cicd"
+    }
+  ],
+  "agile": [
+    {
+      "platform": "Coursera",
+      "title": "Agile Development",
+      "url": "https://www.coursera.org/learn/agile-development"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Agile",
+      "url": "https://www.edx.org/course/introduction-to-agile"
+    }
+  ],
+  "scrum": [
+    {
+      "platform": "Coursera",
+      "title": "Scrum Master Certification",
+      "url": "https://www.coursera.org/learn/scrum-master"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to Scrum",
+      "url": "https://www.edx.org/course/introduction-to-scrum"
+    }
+  ],
+  "graphql": [
+    {
+      "platform": "Coursera",
+      "title": "GraphQL API Development",
+      "url": "https://www.coursera.org/learn/graphql"
+    },
+    {
+      "platform": "edX",
+      "title": "Introduction to GraphQL",
+      "url": "https://www.edx.org/course/introduction-to-graphql"
+    }
+  ]
+}
