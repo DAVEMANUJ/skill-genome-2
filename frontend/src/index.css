@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #6366F1;
+  --primary-glow: rgba(99, 102, 241, 0.2);
+  --surface: #FFFFFF;
+  --background: #F8F9FB;
+  --text-main: #1A1C1E;
+  --text-secondary: #718096;
+}
+
+@layer base {
+  body {
+    @apply bg-[#F8F9FB] text-[#1A1C1E] antialiased overflow-hidden;
+    /* This ensures the font looks thick and sharp */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Force all headings to that heavy, bold style */
+  h1,
+  h2,
+  h3 {
+    @apply font-black tracking-tight;
+  }
+}
+
+@layer components {
+
+  /* THE BENTO GLASS PANEL */
+  .glass-panel {
+    @apply bg-white border border-[#F1F3F5] rounded-[2.5rem] shadow-sm transition-all duration-300 hover:shadow-2xl hover:shadow-[#6366F1]/10;
+  }
+
+  /* BOLD PRIMARY BUTTON */
+  .btn-primary {
+    @apply flex items-center justify-center gap-3 bg-[#6366F1] text-white rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] transition-all duration-300 shadow-xl shadow-[#6366F1]/20 hover:bg-[#4F46E5] hover:shadow-2xl hover:-translate-y-0.5 active:scale-95 disabled:opacity-50;
+    padding: 1.25rem 2.5rem;
+  }
+
+  /* MATTE INPUT FIELDS WITH BOLD TEXT */
+  .input-field {
+    @apply w-full bg-[#F8F9FB] border-2 border-transparent rounded-2xl px-6 py-4 text-sm font-black text-[#1A1C1E] transition-all placeholder:text-[#CBD5E0] placeholder:font-bold outline-none focus:bg-white focus:border-[#6366F1]/20 focus:ring-4 focus:ring-[#6366F1]/5;
+  }
+
+  /* LABEL STYLE */
+  .label-caps {
+    @apply text-[10px] font-black text-[#A0AEC0] uppercase tracking-[0.2em] mb-3 ml-1;
+  }
+
+  /* CUSTOM SCROLLBAR */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-[#CBD5E0] rounded-full hover:bg-[#A0AEC0];
+  }
+}
+
+/* RANGE SLIDER STYLING */
+input[type="range"] {
+  -webkit-appearance: none;
+  @apply bg-transparent cursor-pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  @apply h-2.5 bg-[#F1F3F5] rounded-full;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  @apply h-6 w-6 bg-[#6366F1] rounded-full border-4 border-white shadow-lg -mt-1.5 transition-transform;
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+  @apply scale-110;
+}
