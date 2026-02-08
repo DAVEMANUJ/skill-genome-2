@@ -1,5 +1,5 @@
 import re
-from typing import List, Dict
+from typing import List, Dict, Any
 from app.models.schemas import Skill
 
 ACTION_VERBS = {"built", "developed", "implemented", "designed", "created", "architected"}
@@ -41,18 +41,25 @@ def _has_action_verb_nearby(text: str, skill: str, skill_pos: int) -> bool:
             return True
     return False
 
-def score_skills(skills_list: List[str], raw_text: str) -> List[Skill]:
+def score_skills(skills_data: List[Dict[str, Any]], raw_text: str) -> List[Skill]:
+    """
+    Scores skills based on frequency, location, and extraction method confidence.
+    """
     text_lower = raw_text.lower()
     skill_scores: Dict[str, float] = {}
     
-    for skill in skills_list:
+    for item in skills_data:
+        skill = item['skill']
+        extraction_confidence = item.get('confidence', 0.5)
+        
         skill_lower = skill.lower()
         count = text_lower.count(skill_lower)
         
         if count == 0:
-            continue
+            # Still give it credit if extraction found it (e.g. via NLP)
+            count = 1
         
-        base_score = count * 0.1
+        base_score = count * 0.1 * extraction_confidence
         
         positions = []
         start = 0
@@ -63,6 +70,10 @@ def score_skills(skills_list: List[str], raw_text: str) -> List[Skill]:
             positions.append(pos)
             start = pos + 1
         
+        # If no positions found but extraction found it, use a default pos
+        if not positions:
+            positions = [0]
+
         total_weighted_score = 0.0
         for pos in positions:
             section_weight = _get_section_weight(raw_text, skill, pos)
