@@ -1,6 +1,7 @@
 import json
 import os
-from typing import List, Set
+import re
+from typing import List, Dict, Any, Set
 
 nlp = None
 kw_model = None
@@ -48,33 +49,54 @@ def _load_ontology() -> List[str]:
         conn.close()
     return ontology_skills
 
-def extract_skills(normalized_text: str, raw_text: str) -> List[str]:
-    skills_set: Set[str] = set()
+def extract_skills(normalized_text: str, raw_text: str) -> List[Dict[str, Any]]:
+    """
+    Extracts skills with confidence scores.
+    Returns a list of dictionaries: [{'skill': str, 'confidence': float, 'method': str}]
+    """
+    found_skills: Dict[str, Dict[str, Any]] = {}
     
     ontology_skills = _load_ontology()
-    ontology_lower = [s.lower() for s in ontology_skills]
     
-    for skill in ontology_lower:
-        if skill in normalized_text:
-            skills_set.add(skill)
-        words = skill.split()
-        if len(words) > 1:
-            if all(word in normalized_text for word in words):
-                skills_set.add(skill)
+    # 1. Exact Regex matching (Highest confidence)
+    for skill in ontology_skills:
+        # Use word boundaries for exact match
+        pattern = r'\b' + re.escape(skill.lower()) + r'\b'
+        if re.search(pattern, normalized_text.lower()):
+            found_skills[skill] = {
+                'skill': skill,
+                'confidence': 0.95,
+                'method': 'exact_regex'
+            }
     
+    # 2. NLP-based extraction (Medium-High confidence)
     nlp_model = _load_nlp()
     if nlp_model is not None:
         try:
             doc = nlp_model(raw_text)
             for chunk in doc.noun_chunks:
                 chunk_text = chunk.text.lower().strip()
-                if len(chunk_text) > 2 and len(chunk_text) < 50:
-                    for skill in ontology_lower:
-                        if skill in chunk_text or chunk_text in skill:
-                            skills_set.add(skill)
+                if len(chunk_text) > 2:
+                    for skill in ontology_skills:
+                        skill_lower = skill.lower()
+                        if skill_lower == chunk_text:
+                            if skill not in found_skills or found_skills[skill]['confidence'] < 0.9:
+                                found_skills[skill] = {
+                                    'skill': skill,
+                                    'confidence': 0.9,
+                                    'method': 'nlp_chunk_exact'
+                                }
+                        elif skill_lower in chunk_text:
+                             if skill not in found_skills or found_skills[skill]['confidence'] < 0.7:
+                                found_skills[skill] = {
+                                    'skill': skill,
+                                    'confidence': 0.7,
+                                    'method': 'nlp_chunk_substring'
+                                }
         except Exception:
             pass
-    
+            
+    # 3. KeyBERT extraction (Medium confidence)
     kw_model = _load_keybert()
     if kw_model is not None:
         try:
@@ -82,15 +104,20 @@ def extract_skills(normalized_text: str, raw_text: str) -> List[str]:
                 raw_text,
                 keyphrase_ngram_range=(1, 2),
                 stop_words='english',
-                top_n=30
+                top_n=20
             )
-            
-            for keyword, _ in keywords:
+            for keyword, score in keywords:
                 keyword_lower = keyword.lower().strip()
-                for skill in ontology_lower:
-                    if skill in keyword_lower or keyword_lower in skill:
-                        skills_set.add(skill)
+                for skill in ontology_skills:
+                    skill_lower = skill.lower()
+                    if skill_lower == keyword_lower:
+                        if skill not in found_skills or found_skills[skill]['confidence'] < 0.85:
+                            found_skills[skill] = {
+                                'skill': skill,
+                                'confidence': 0.85,
+                                'method': 'keybert_exact'
+                            }
         except Exception:
             pass
-    
-    return list(skills_set)
+
+    return list(found_skills.values())
