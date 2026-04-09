@@ -20,7 +20,7 @@ git push origin main
 2. Connect repo: `DAVEMANUJ/skill-genome-2`.
 3. Configure:
    - **Root Directory**: project root
-   - **Runtime**: Python
+   - **Runtime**: Python (3.11)
    - **Build Command**: `pip install -r requirements.txt`
    - **Start Command**: `python app/init_db.py && gunicorn wsgi:app --bind 0.0.0.0:$PORT`
 4. Add a persistent disk:
@@ -64,3 +64,8 @@ After Vercel gives final domain:
 - Upload a resume and confirm analysis succeeds.
 - Run GitHub import and verify projects/skills appear.
 - Open `https://<render-service>/health` and ensure status is healthy.
+
+
+### Render Python version note
+If build logs show Failed to build blis/spacy, set Python to **3.11** in Render Environment (or keep untime.txt in repo).
+

@@ -100,3 +100,7 @@ python start_server.py
 
 For production deployment on Render + Vercel, follow [DEPLOYMENT.md](DEPLOYMENT.md).
 
+
+### Python version for Render
+Use **Python 3.11** for backend deployment (spaCy/blis wheels).
+
