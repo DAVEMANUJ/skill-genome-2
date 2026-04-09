@@ -84,9 +84,37 @@ CREATE TABLE IF NOT EXISTS user_achievements (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+-- Reference roles and required skills for pathway/readiness logic
+CREATE TABLE IF NOT EXISTS roles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role_name TEXT NOT NULL,
+    category TEXT NOT NULL,
+    skill TEXT NOT NULL,
+    UNIQUE(role_name, category, skill)
+);
+
+-- Reference ontology used by resume skill extraction
+CREATE TABLE IF NOT EXISTS ontology (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    skill TEXT NOT NULL UNIQUE
+);
+
+-- Reference course catalog used by recommendations/roadmap
+CREATE TABLE IF NOT EXISTS courses (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    skill TEXT NOT NULL,
+    platform TEXT NOT NULL,
+    title TEXT NOT NULL,
+    url TEXT NOT NULL,
+    UNIQUE(skill, platform, title, url)
+);
+
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_user_skills_user ON user_skills(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_courses_user ON user_courses(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_projects_user ON user_projects(user_id);
 CREATE INDEX IF NOT EXISTS idx_gap_analysis_user ON skill_gap_analysis(user_id);
 CREATE INDEX IF NOT EXISTS idx_gap_analysis_date ON skill_gap_analysis(analysis_date DESC);
+CREATE INDEX IF NOT EXISTS idx_roles_name ON roles(role_name);
+CREATE INDEX IF NOT EXISTS idx_ontology_skill ON ontology(skill);
+CREATE INDEX IF NOT EXISTS idx_courses_skill ON courses(skill);

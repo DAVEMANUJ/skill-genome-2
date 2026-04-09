@@ -1,75 +1,56 @@
-# Testing Instructions
+# Setup And Smoke Test
 
-## 1. Install Dependencies
+## 1) Install dependencies
 
 ```bash
 pip install -r requirements.txt
 python -m spacy download en_core_web_sm
 ```
 
-## 2. Start the Server
+## 2) Start backend
 
 ```bash
-uvicorn app.main:app --reload
+python start_server.py
 ```
 
-Server will run at: `http://localhost:8000`
+Backend URL: `http://localhost:5000`
 
-## 3. Test Methods
-
-### Method 1: Using the Test Script
+Health check:
 
 ```bash
-python test_api.py <resume_file.pdf> "data scientist"
+curl http://localhost:5000/health
 ```
 
-Example:
+## 3) API smoke checks
+
+### Create profile
+
 ```bash
-python test_api.py resume.pdf "data scientist"
+curl -X POST http://localhost:5000/api/profile \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Alice","email":"alice@example.com","target_sector":"Healthcare","target_role":"data scientist"}'
 ```
 
-### Method 2: Using curl
+### Get pathways tree
 
 ```bash
-curl -X POST "http://localhost:8000/resume/analyze" \
+curl "http://localhost:5000/api/pathways/tree?role=data%20scientist"
+```
+
+### Analyze resume
+
+```bash
+curl -X POST http://localhost:5000/api/resume/analyze \
   -F "file=@resume.pdf" \
   -F "target_role=data scientist"
 ```
 
-### Method 3: Using Python requests
-
-```python
-import requests
-
-url = "http://localhost:8000/resume/analyze"
-with open("resume.pdf", "rb") as f:
-    files = {"file": ("resume.pdf", f, "application/pdf")}
-    data = {"target_role": "data scientist"}
-    response = requests.post(url, files=files, data=data)
-    print(response.json())
-```
-
-### Method 4: Using Flask Docs
-
-1. Start the server
-2. Open browser: `http://localhost:8000/docs`
-3. Click on `/resume/analyze` endpoint
-4. Click "Try it out"
-5. Upload a file and enter target_role
-6. Click "Execute"
-
-## 4. Available Target Roles
-
-- "data scientist"
-- "software engineer"
-- "ml engineer"
-- "backend developer"
-- "frontend developer"
-
-## 5. Test Root Endpoint
+## 4) Start frontend
 
 ```bash
-curl http://localhost:8000/
+cd frontend
+npm install
+npm run dev
 ```
 
-Or visit: `http://localhost:8000/` in browser
+Frontend URL: `http://localhost:5173`
