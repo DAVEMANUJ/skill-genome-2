@@ -1,7 +1,8 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Trash2, Loader2, CheckCircle, Sparkles, X, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../apiConfig';
 
 interface UserSkill {
     id: number;
@@ -12,10 +13,7 @@ interface UserSkill {
 }
 
 const Skills: React.FC = () => {
-    const apiBaseUrl = useMemo(
-        () => (import.meta as any)?.env?.VITE_API_BASE_URL || 'http://localhost:5000',
-        []
-    );
+    const apiBaseUrl = API_BASE_URL;
 
     const navigate = useNavigate();
     const [skills, setSkills] = useState<UserSkill[]>([]);
@@ -25,7 +23,7 @@ const Skills: React.FC = () => {
     const userId = localStorage.getItem('user_id');
 
     // We use a ref to debounce the slider updates to the API
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
     const forceLogout = () => {
         localStorage.removeItem('token');
@@ -296,3 +294,5 @@ const Skills: React.FC = () => {
 };
 
 export default Skills;
+
+

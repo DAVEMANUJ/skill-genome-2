@@ -5,6 +5,7 @@ import {
   Clock, CheckCircle, Sparkles, Target, Zap
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../apiConfig';
 
 interface Course { platform: string; title: string; url: string; }
 interface Video { title: string; channel: string; url: string; duration: string; }
@@ -39,7 +40,7 @@ const Recommendations: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const apiBaseUrl = useMemo(() => import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000', []);
+  const apiBaseUrl = API_BASE_URL;
 
   useEffect(() => {
     const loadRecommendations = async () => {

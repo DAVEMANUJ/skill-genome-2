@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { TrendingUp, Target, Github, ArrowRight, Sparkles, BookOpen, Rocket } from 'lucide-react';
+import { TrendingUp, Github, ArrowRight, Sparkles, BookOpen, Rocket } from 'lucide-react';
+import { API_BASE_URL } from '../apiConfig';
 
 const DashboardHome: React.FC = () => {
-    const apiBaseUrl = useMemo(() => import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000', []);
+    const apiBaseUrl = API_BASE_URL;
 
     const [skillsTracked, setSkillsTracked] = useState<number | null>(null);
     const [projectsImported, setProjectsImported] = useState<number | null>(null);
@@ -64,7 +65,7 @@ const DashboardHome: React.FC = () => {
                         {displayName ? `Sharpen Your Skills, ${displayName.split(' ')[0]}!` : 'Sharpen Your Professional Edge'}
                     </h1>
                     <p className="text-white/80 font-medium mb-8 text-lg">
-                        Your Skill Genome is evolving. You have {skillsTracked || 0} skills mapped—keep going to reach your target role.
+                        Your Skill Genome is evolving. You have {skillsTracked || 0} skills mapped - keep going to reach your target role.
                     </p>
                     <Link to="/dashboard/recommendations" className="inline-flex items-center gap-3 bg-white text-[#6366F1] px-8 py-4 rounded-full font-black text-sm uppercase tracking-widest hover:bg-[#F8F9FB] transition-all shadow-lg active:scale-95">
                         Continue Learning
@@ -84,7 +85,7 @@ const DashboardHome: React.FC = () => {
                             <TrendingUp className="h-8 w-8" />
                         </div>
                         <div>
-                            <p className="text-3xl font-black text-[#1A1C1E]">{skillsTracked ?? '—'}</p>
+                            <p className="text-3xl font-black text-[#1A1C1E]">{skillsTracked ?? '-'}</p>
                             <p className="text-xs font-black text-[#A0AEC0] uppercase tracking-widest mt-1">Skills Tracked</p>
                         </div>
                     </div>
@@ -99,7 +100,7 @@ const DashboardHome: React.FC = () => {
                             <Github className="h-8 w-8" />
                         </div>
                         <div>
-                            <p className="text-3xl font-black text-[#1A1C1E]">{projectsImported ?? '—'}</p>
+                            <p className="text-3xl font-black text-[#1A1C1E]">{projectsImported ?? '-'}</p>
                             <p className="text-xs font-black text-[#A0AEC0] uppercase tracking-widest mt-1">Projects Synced</p>
                         </div>
                     </div>
@@ -148,3 +149,5 @@ const ChevronRight = ({ className }: { className?: string }) => (
 );
 
 export default DashboardHome;
+
+

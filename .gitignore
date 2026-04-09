@@ -86,4 +86,6 @@ credentials.json
 .turbo/
 .next/
 out/
+*.db-shm
+*.db-wal
 

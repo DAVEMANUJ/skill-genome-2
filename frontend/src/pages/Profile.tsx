@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Save,
@@ -12,6 +12,7 @@ import {
   Target // Repaired: Added missing icon import
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../apiConfig';
 
 type ProfileUser = {
   user_id: string;
@@ -41,10 +42,7 @@ type RolesResponse = {
 const SECTORS = ['Healthcare', 'Agriculture', 'Urban', 'Technology', 'Finance'] as const;
 
 const Profile: React.FC = () => {
-  const apiBaseUrl = useMemo(
-    () => (import.meta as any)?.env?.VITE_API_BASE_URL || 'http://localhost:5000',
-    []
-  );
+  const apiBaseUrl = API_BASE_URL;
   const navigate = useNavigate();
   const userId = localStorage.getItem('user_id');
 
@@ -196,7 +194,7 @@ const Profile: React.FC = () => {
                 </div>
                 <div className="min-w-0">
                   <p className="text-[9px] font-black text-[#A0AEC0] uppercase tracking-tighter">Email Address</p>
-                  <p className="text-sm font-bold truncate">{user?.email || '—'}</p>
+                  <p className="text-sm font-bold truncate">{user?.email || '-'}</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 text-left">
@@ -312,3 +310,4 @@ const Profile: React.FC = () => {
 };
 
 export default Profile;
+

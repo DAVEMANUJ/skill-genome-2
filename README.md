@@ -95,3 +95,8 @@ python start_server.py
 
 - No secrets should be committed.
 - Keep tokens only in environment variables.
+
+## Deployment
+
+For production deployment on Render + Vercel, follow [DEPLOYMENT.md](DEPLOYMENT.md).
+

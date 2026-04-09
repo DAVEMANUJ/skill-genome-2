@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
   AlertTriangle, CheckCircle2,
   RefreshCcw, Target, ChevronRight, BookOpen, ExternalLink, Zap, X
 } from 'lucide-react';
+import { API_BASE_URL } from '../apiConfig';
 
 // --- Types synchronized with pathways.py backend ---
 type Course = { platform: string; title: string; url: string; };
@@ -53,10 +54,7 @@ const PHASE_LABELS: Record<string, string> = {
 };
 
 const CareerPathways: React.FC = () => {
-  const apiBaseUrl = useMemo(
-    () => (import.meta as any)?.env?.VITE_API_BASE_URL || 'http://localhost:5000',
-    []
-  );
+  const apiBaseUrl = API_BASE_URL;
   const navigate = useNavigate();
   const userId = localStorage.getItem('user_id');
 

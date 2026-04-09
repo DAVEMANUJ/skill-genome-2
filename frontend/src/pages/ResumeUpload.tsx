@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import {
-    Upload, FileText, Loader2, CheckCircle, Target,
-    AlertCircle, Briefcase, Sparkles, ArrowRight, BookOpen, X
+    Upload, FileText, Loader2, ArrowRight, X
 } from 'lucide-react';
+import { API_BASE_URL } from '../apiConfig';
 
 interface Skill {
     name: string;
@@ -42,14 +42,13 @@ const ResumeUpload: React.FC = () => {
     const [selectedSector, setSelectedSector] = useState<string>('Technology');
     const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
     const userId = localStorage.getItem('user_id');
-    const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const sectors = ['Technology', 'Marketing', 'HR', 'Finance', 'Design', 'Healthcare'];
 
     useEffect(() => {
         const fetchRoles = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/roles');
+                const response = await fetch(API_BASE_URL + '/api/roles');
                 const data = await response.json();
                 if (response.ok && data.roles) {
                     setRoles(data.roles);
@@ -80,7 +79,7 @@ const ResumeUpload: React.FC = () => {
         formData.append('target_sector', selectedSector);
 
         try {
-            const response = await fetch('http://localhost:5000/api/resume/analyze', {
+            const response = await fetch(API_BASE_URL + '/api/resume/analyze', {
                 method: 'POST',
                 body: formData
             });
@@ -94,7 +93,7 @@ const ResumeUpload: React.FC = () => {
                 localStorage.setItem('targetSector', selectedSector);
 
                 if (userId && initialSkills.length > 0) {
-                    await fetch(`http://localhost:5000/api/profile/${userId}/skills/bulk`, {
+                    await fetch(`${API_BASE_URL}/api/profile/${userId}/skills/bulk`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
@@ -134,7 +133,7 @@ const ResumeUpload: React.FC = () => {
 
         if (userId && selectedRole) {
             try {
-                const response = await fetch(`http://localhost:5000/api/gap-analysis/${userId}`, {
+                const response = await fetch(`${API_BASE_URL}/api/gap-analysis/${userId}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -280,3 +279,4 @@ const ResumeUpload: React.FC = () => {
 };
 
 export default ResumeUpload;
+

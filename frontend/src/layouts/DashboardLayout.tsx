@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -6,12 +6,13 @@ import {
     User, Award, GitBranch, Settings, Search,
     Bell, Mail, ChevronRight, Zap
 } from 'lucide-react';
+import { API_BASE_URL } from '../apiConfig';
 
 const DashboardLayout: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const userId = localStorage.getItem('user_id');
-    const apiBaseUrl = useMemo(() => import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000', []);
+    const apiBaseUrl = API_BASE_URL;
 
     const [displayName, setDisplayName] = useState<string>('User');
     const [displaySub, setDisplaySub] = useState<string>('');

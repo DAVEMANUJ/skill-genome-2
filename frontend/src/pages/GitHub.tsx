@@ -5,6 +5,7 @@ import {
   Save, Sparkles, Code2, Star, GitBranch
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../apiConfig';
 
 type GitHubSkill = {
   name: string;
@@ -48,7 +49,7 @@ function parseUsernameFromGithubUrl(value: string): string | null {
 }
 
 const GitHubTab: React.FC = () => {
-  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+  const apiBaseUrl = API_BASE_URL;
   const navigate = useNavigate();
   const userId = localStorage.getItem('user_id');
 
@@ -57,8 +58,6 @@ const GitHubTab: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [importResult, setImportResult] = useState<ImportResponse | null>(null);
-  const [existingProjects, setExistingProjects] = useState<any[]>([]);
-  const [existingSkills, setExistingSkills] = useState<any[]>([]);
   const [refreshingProfile, setRefreshingProfile] = useState(false);
 
   const githubUsername = useMemo(() => parseUsernameFromGithubUrl(githubInput), [githubInput]);
@@ -75,9 +74,7 @@ const GitHubTab: React.FC = () => {
     try {
       const res = await fetch(`${apiBaseUrl}/api/profile/${userId}`);
       if (res.status === 401 || res.status === 404) { forceLogout(); return; }
-      const data = await res.json();
-      setExistingProjects(data?.projects || []);
-      setExistingSkills(data?.skills || []);
+      await res.json();
     } finally { setRefreshingProfile(false); }
   };
 
@@ -264,3 +261,4 @@ const GitHubTab: React.FC = () => {
 };
 
 export default GitHubTab;
+
