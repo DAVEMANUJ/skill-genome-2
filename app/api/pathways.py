@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from functools import lru_cache
 from typing import Any, Dict, List, Optional, Tuple
 
 from flask import Blueprint, jsonify, request
@@ -90,29 +91,53 @@ def _get_user_skill_map(user_id: str) -> Tuple[Dict[str, float], Dict[str, List[
         conn.close()
 
 
-def _get_courses_for_skill(skill: str, limit: int = 2) -> List[Dict[str, str]]:
+@lru_cache(maxsize=8)
+def _load_courses_by_skill(limit_per_skill: int = 2) -> Dict[str, List[Dict[str, str]]]:
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
         cursor.execute(
             """
-            SELECT platform, title, url
+            SELECT skill, platform, title, url
             FROM courses
-            WHERE LOWER(skill) = LOWER(?)
-            LIMIT ?
-            """,
-            (skill, limit),
+            """
         )
-        return [
-            {
+
+        courses_by_skill: Dict[str, List[Dict[str, str]]] = {}
+        for row in cursor.fetchall():
+            skill_key = str(row['skill'] or '').strip().lower()
+            if not skill_key:
+                continue
+
+            course = {
                 'platform': row['platform'],
                 'title': row['title'],
                 'url': row['url'],
             }
-            for row in cursor.fetchall()
-        ]
+
+            existing = courses_by_skill.setdefault(skill_key, [])
+            if len(existing) < limit_per_skill:
+                existing.append(course)
+
+        return courses_by_skill
     finally:
         conn.close()
+
+
+def _get_courses_for_skill(skill: str, courses_by_skill: Dict[str, List[Dict[str, str]]]) -> List[Dict[str, str]]:
+    skill_lower = str(skill or '').strip().lower()
+    if not skill_lower:
+        return []
+
+    exact_match = courses_by_skill.get(skill_lower)
+    if exact_match:
+        return list(exact_match)
+
+    for known_skill, course_list in courses_by_skill.items():
+        if skill_lower in known_skill or known_skill in skill_lower:
+            return list(course_list)
+
+    return []
 
 
 @pathways_bp.route('/pathways/tree', methods=['GET'])
@@ -154,6 +179,7 @@ def get_pathway_tree():
             return jsonify({'error': 'No roles available in database'}), 500
 
         role_requirements = roles_data[matched_role]
+        courses_by_skill = _load_courses_by_skill(2)
 
         skill_to_conf, skill_to_evidence = _get_user_skill_map(user_id)
 
@@ -185,7 +211,7 @@ def get_pathway_tree():
                         'status': status,
                         'confidence': confidence,
                         'evidence': skill_to_evidence.get(skill_key, []),
-                        'courses': _get_courses_for_skill(skill) if status != 'complete' else [],
+                        'courses': _get_courses_for_skill(skill, courses_by_skill) if status != 'complete' else [],
                     }
                 )
 

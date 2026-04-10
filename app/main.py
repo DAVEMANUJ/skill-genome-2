@@ -1,17 +1,19 @@
-from flask import Flask, render_template, jsonify
+import os
+import time
+from pathlib import Path
+
+from flask import Flask, g, jsonify, render_template, request
 from flask_cors import CORS
+from werkzeug.exceptions import HTTPException
 
 from app.api import resume
-from app.api.user_profile import profile_bp
 from app.api.integrations import integrations_bp
-from app.api.recommendations import recommendations_bp
 from app.api.pathways import pathways_bp
-from app.routes.gap_analysis import gap_analysis_bp
-from app.routes import auth_bp
+from app.api.recommendations import recommendations_bp
+from app.api.user_profile import profile_bp
 from app.models.database import db
-
-import os
-from pathlib import Path
+from app.routes import auth_bp
+from app.routes.gap_analysis import gap_analysis_bp
 
 
 def _resolve_db_path() -> Path:
@@ -30,8 +32,12 @@ def _sqlalchemy_sqlite_uri(db_path: Path) -> str:
 
 def _parse_cors_origins() -> list[str]:
     raw = os.getenv('CORS_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173')
-    origins = [origin.strip() for origin in raw.split(',') if origin.strip()]
+    origins = [origin.strip().rstrip('/') for origin in raw.split(',') if origin.strip()]
     return origins if origins else ['http://localhost:5173']
+
+
+def _request_timing_enabled() -> bool:
+    return os.getenv('LOG_REQUEST_TIMING', '1').strip().lower() not in {'0', 'false', 'no'}
 
 
 db_path = _resolve_db_path()
@@ -49,27 +55,56 @@ CORS(
     app,
     resources={
         r"/*": {
-            "origins": _parse_cors_origins(),
-            "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-            "allow_headers": ["Content-Type", "Authorization"],
-            "supports_credentials": False,
+            'origins': _parse_cors_origins(),
+            'methods': ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+            'allow_headers': ['Content-Type', 'Authorization'],
+            'supports_credentials': False,
         }
     },
 )
 
 
+if _request_timing_enabled():
+    @app.before_request
+    def _start_request_timer():
+        g.request_started_at = time.perf_counter()
+
+
+    @app.after_request
+    def _log_request_timing(response):
+        started = getattr(g, 'request_started_at', None)
+        if started is not None:
+            duration_ms = (time.perf_counter() - started) * 1000
+            app.logger.info('%s %s -> %s (%.1fms)', request.method, request.path, response.status_code, duration_ms)
+        return response
+
+
 @app.errorhandler(Exception)
 def handle_exception(e):
     """Global error handler to ensure JSON response and useful logging."""
-    import traceback
+    if isinstance(e, HTTPException):
+        status_code = e.code or 500
 
-    app.logger.error(f"Server Error: {str(e)}")
-    traceback.print_exc()
+        if status_code >= 500:
+            app.logger.error('HTTP %s on %s: %s', status_code, request.path, e.description)
+        elif status_code >= 400:
+            app.logger.info('HTTP %s on %s', status_code, request.path)
+
+        response = jsonify(
+            {
+                'error': e.name,
+                'message': e.description,
+            }
+        )
+        response.status_code = status_code
+        return response
+
+    app.logger.exception('Unhandled server error on %s %s', request.method, request.path)
 
     response = jsonify(
         {
-            "error": str(e),
-            "message": "Internal Server Error",
+            'error': str(e),
+            'message': 'Internal Server Error',
         }
     )
     response.status_code = 500

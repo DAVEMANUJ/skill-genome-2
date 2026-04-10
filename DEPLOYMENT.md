@@ -1,71 +1,66 @@
 # Deployment Guide (Render + Vercel)
 
-This project deploys best as:
+Recommended setup:
 - Backend (Flask): Render
 - Frontend (Vite/React): Vercel
 
 ## 1) Push latest code to GitHub
 
-From project root:
-
 ```bash
 git add .
-git commit -m "deploy: vercel + render production config"
+git commit -m "deploy: render + vercel settings"
 git push origin main
 ```
 
 ## 2) Deploy backend on Render
 
-1. Go to Render Dashboard -> **New +** -> **Web Service**.
+1. Open Render dashboard -> **New +** -> **Web Service**.
 2. Connect repo: `DAVEMANUJ/skill-genome-2`.
-3. Configure:
-   - **Root Directory**: project root
-   - **Runtime**: Python (3.11)
-   - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `python app/init_db.py && gunicorn wsgi:app --bind 0.0.0.0:$PORT`
-4. Add a persistent disk:
-   - **Mount Path**: `/var/data`
-   - **Size**: 1 GB (or more)
-5. Set environment variables:
-   - `SKILLGENOME_DB_PATH=/var/data/skillgenome.db`
+3. Configure service:
+   - **Runtime**: Python
+   - **Branch**: `main`
+   - **Build Command**: `pip install -r requirements.txt && python app/init_db.py`
+   - **Start Command**: `gunicorn wsgi:app --bind 0.0.0.0:$PORT`
+4. Set environment variables:
    - `FLASK_SECRET_KEY=<strong-random-secret>`
    - `JWT_SECRET_KEY=<strong-random-secret>`
-   - `CORS_ORIGINS=https://<your-vercel-domain>`
+   - `SKILLGENOME_DB_PATH=/tmp/skillgenome.db` (free tier)
+   - `CORS_ORIGINS=https://<your-vercel-domain>` (no trailing slash)
    - Optional: `GITHUB_TOKEN`, `GITHUB_PROJECT_LIMIT`, `GITHUB_LANGUAGE_CALL_LIMIT`
-6. Deploy and verify backend health:
-   - `https://<render-service>/health`
+5. Deploy and verify health endpoint:
+   - `https://<render-service>.onrender.com/health`
+
+### Free-tier persistence note
+- `/tmp` DB is ephemeral and may reset on restart/redeploy/spin-down.
+
+### Paid persistent option
+- Attach Render disk and switch:
+  - `SKILLGENOME_DB_PATH=/var/data/skillgenome.db`
 
 ## 3) Deploy frontend on Vercel
 
-1. Go to Vercel Dashboard -> **Add New...** -> **Project**.
-2. Import repo: `DAVEMANUJ/skill-genome-2`.
-3. Set project options:
+1. Open Vercel dashboard -> import same repo.
+2. Configure:
    - **Root Directory**: `frontend`
    - **Framework Preset**: Vite
-   - **Build Command**: `npm run build`
+   - **Install Command**: `npm ci` (no quotes)
+   - **Build Command**: `npm run build` (no quotes)
    - **Output Directory**: `dist`
-4. Add environment variable:
-   - `VITE_API_BASE_URL=https://<your-render-service>`
-5. Deploy.
+3. Add env var:
+   - `VITE_API_BASE_URL=https://<render-service>.onrender.com`
+4. Deploy.
 
-`frontend/vercel.json` is already added for SPA rewrites so `/dashboard/*` routes work after refresh.
+`frontend/vercel.json` handles SPA route rewrites for `/dashboard/*`.
 
 ## 4) Final CORS sync
 
-After Vercel gives final domain:
-1. Copy exact Vercel URL.
-2. In Render, update `CORS_ORIGINS` to that exact URL.
-3. Redeploy backend.
+After frontend domain is final:
+1. Update Render `CORS_ORIGINS` to exact Vercel origin(s), comma-separated, no trailing slash.
+2. Redeploy backend.
 
 ## 5) Smoke test checklist
 
-- Open frontend URL and login/register.
-- Refresh a deep route (for example `/dashboard/profile`) and ensure it still loads.
-- Upload a resume and confirm analysis succeeds.
-- Run GitHub import and verify projects/skills appear.
-- Open `https://<render-service>/health` and ensure status is healthy.
-
-
-### Render Python version note
-If build logs show Failed to build blis/spacy, set Python to **3.11** in Render Environment (or keep untime.txt in repo).
-
+- `GET /health` returns healthy.
+- Signup/login from Vercel frontend works.
+- Resume upload API works.
+- GitHub import works.

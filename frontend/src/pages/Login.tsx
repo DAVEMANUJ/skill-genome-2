@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     User,
@@ -9,12 +9,13 @@ import {
     Mail
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../apiConfig';
+import { API_BASE_URL, warmUpBackend } from '../apiConfig';
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
     const [isSignUp, setIsSignUp] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [warmingBackend, setWarmingBackend] = useState(true);
     const [formData, setFormData] = useState({
         name: '',
         username: '',
@@ -22,11 +23,27 @@ const Login: React.FC = () => {
         password: ''
     });
 
+    useEffect(() => {
+        let mounted = true;
+
+        warmUpBackend().finally(() => {
+            if (mounted) {
+                setWarmingBackend(false);
+            }
+        });
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
         try {
+            await warmUpBackend();
+
             const endpoint = isSignUp ? '/auth/register' : '/auth/login';
             const payload = isSignUp
                 ? { name: formData.name, username: formData.username, email: formData.email, password: formData.password }
@@ -42,7 +59,7 @@ const Login: React.FC = () => {
 
             if (response.ok) {
                 if (isSignUp) {
-                    alert(`Account created! You can now login.`);
+                    alert('Account created! You can now login.');
                     setIsSignUp(false);
                 } else {
                     localStorage.setItem('token', data.token);
@@ -53,7 +70,12 @@ const Login: React.FC = () => {
                 alert(`Error: ${data.error || 'Something went wrong'}`);
             }
         } catch (error) {
-            alert(`Network error: ${error}`);
+            const message = error instanceof Error ? error.message : String(error);
+            if (message.toLowerCase().includes('failed to fetch')) {
+                alert('Backend is starting up. Please wait about 20-40 seconds and try again.');
+            } else {
+                alert(`Network error: ${message}`);
+            }
         } finally {
             setLoading(false);
         }
@@ -165,6 +187,12 @@ const Login: React.FC = () => {
                                 </>
                             )}
                         </button>
+
+                        {warmingBackend && !loading && (
+                            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#A0AEC0] text-center pt-1">
+                                Waking backend server, first load may take a few seconds.
+                            </p>
+                        )}
                     </form>
 
                     <div className="mt-10 text-center">
