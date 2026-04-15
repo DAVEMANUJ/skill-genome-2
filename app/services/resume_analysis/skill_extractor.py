@@ -21,8 +21,15 @@ def _load_nlp():
     return nlp
 
 
+import os
+
 def _load_keybert():
     global kw_model, _keybert_attempted
+    # Opt-out heavy ML for cloud deployments
+    if os.getenv('DISABLE_HEAVY_ML', 'true').strip().lower() in {'1', 'true', 'yes'}:
+        _keybert_attempted = True
+        return None
+
     if kw_model is None and not _keybert_attempted:
         _keybert_attempted = True
         try:
