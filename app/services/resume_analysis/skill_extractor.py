@@ -4,27 +4,17 @@ from typing import Any, Dict, List
 
 nlp = None
 kw_model = None
-spacy_available = False
 
-try:
-    import spacy
-
-    spacy_available = True
-except Exception:
-    spacy_available = False
-
-try:
-    from keybert import KeyBERT
-
-    keybert_available = True
-except Exception:
-    keybert_available = False
-
+# We use these flags to avoid re-attempting failed imports/loads
+_spacy_attempted = False
+_keybert_attempted = False
 
 def _load_nlp():
-    global nlp
-    if nlp is None and spacy_available:
+    global nlp, _spacy_attempted
+    if nlp is None and not _spacy_attempted:
+        _spacy_attempted = True
         try:
+            import spacy
             nlp = spacy.load('en_core_web_sm')
         except Exception:
             nlp = None
@@ -32,9 +22,11 @@ def _load_nlp():
 
 
 def _load_keybert():
-    global kw_model
-    if kw_model is None and keybert_available:
+    global kw_model, _keybert_attempted
+    if kw_model is None and not _keybert_attempted:
+        _keybert_attempted = True
         try:
+            from keybert import KeyBERT
             kw_model = KeyBERT()
         except Exception:
             kw_model = None
