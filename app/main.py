@@ -31,9 +31,9 @@ def _sqlalchemy_sqlite_uri(db_path: Path) -> str:
 
 
 def _parse_cors_origins() -> list[str]:
-    raw = os.getenv('CORS_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173')
+    raw = os.getenv('CORS_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173,https://skillgenome.vercel.app')
     origins = [origin.strip().rstrip('/') for origin in raw.split(',') if origin.strip()]
-    return origins if origins else ['http://localhost:5173']
+    return origins if origins else ['http://localhost:5173', 'https://skillgenome.vercel.app']
 
 
 def _request_timing_enabled() -> bool:
