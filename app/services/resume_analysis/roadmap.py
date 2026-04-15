@@ -13,7 +13,7 @@ def _load_roles() -> Dict:
     roles_data = {}
     try:
         # Structure: role -> {sector: sector_name, category -> list of skills}
-        rows = conn.execute('SELECT role_name, category, skill, sector FROM roles').fetchall()
+        rows = conn.execute('SELECT role_name, category, skill FROM roles').fetchall()
 
         for row in rows:
             role = row['role_name']

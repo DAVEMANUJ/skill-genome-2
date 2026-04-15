@@ -1,7 +1,7 @@
 # Script to run both backend and frontend servers
 
 Write-Host "Starting Backend Server..." -ForegroundColor Green
-Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$PWD'; .venv\Scripts\python.exe start_server.py"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd '$PWD'; venv\Scripts\python.exe start_server.py"
 
 Write-Host "Waiting 3 seconds before starting frontend..." -ForegroundColor Yellow
 Start-Sleep -Seconds 3
