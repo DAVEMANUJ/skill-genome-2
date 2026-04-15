@@ -226,12 +226,12 @@ def generate_recommendations(missing_required, missing_preferred, weak_skills, s
     for skill_obj in missing_required[:3]:  # Top 3 missing
         skill = skill_obj['skill']
         
-        # Find relevant courses from database, filtered by sector if possible
+        # Find relevant courses from database
         cursor.execute("""
             SELECT platform, title, url FROM courses 
-            WHERE LOWER(skill) = LOWER(?) AND (LOWER(sector) = LOWER(?) OR sector IS NULL OR sector = 'Technology')
+            WHERE LOWER(skill) = LOWER(?)
             LIMIT 1
-        """, (skill, sector))
+        """, (skill,))
         
         course = cursor.fetchone()
         
@@ -277,9 +277,9 @@ def generate_recommendations(missing_required, missing_preferred, weak_skills, s
         # Find course from database
         cursor.execute("""
             SELECT platform, title, url FROM courses 
-            WHERE LOWER(skill) = LOWER(?) AND (LOWER(sector) = LOWER(?) OR sector IS NULL OR sector = 'Technology')
+            WHERE LOWER(skill) = LOWER(?)
             LIMIT 1
-        """, (skill, sector))
+        """, (skill,))
         
         course = cursor.fetchone()
         
