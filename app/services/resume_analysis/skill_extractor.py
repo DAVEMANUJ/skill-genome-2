@@ -11,6 +11,11 @@ _keybert_attempted = False
 
 def _load_nlp():
     global nlp, _spacy_attempted
+    # Opt-out heavy ML for cloud deployments
+    if os.getenv('DISABLE_HEAVY_ML', 'true').strip().lower() in {'1', 'true', 'yes'}:
+        _spacy_attempted = True
+        return None
+        
     if nlp is None and not _spacy_attempted:
         _spacy_attempted = True
         try:
