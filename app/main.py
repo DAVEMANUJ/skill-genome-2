@@ -54,7 +54,7 @@ db.init_app(app)
 CORS(
     app,
     resources={
-        r"/*": {
+        r"/.*": {
             'origins': _parse_cors_origins(),
             'methods': ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             'allow_headers': ['Content-Type', 'Authorization'],
