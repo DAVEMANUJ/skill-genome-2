@@ -10,42 +10,22 @@ export const apiUrl = (path: string): string => {
   return `${API_BASE_URL}${normalizedPath}`;
 };
 
-let backendWarmupPromise: Promise<boolean> | null = null;
-
-export const warmUpBackend = async (): Promise<boolean> => {
-  if (backendWarmupPromise) {
-    return backendWarmupPromise;
-  }
-
-  backendWarmupPromise = (async () => {
-    const maxRetries = 20; // 20 retries at 3000ms delay = 60 seconds
-    const retryDelay = 3000;
-    
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 12000);
-        const response = await fetch(apiUrl('/health'), {
-          method: 'GET',
-          cache: 'no-store',
-          signal: controller.signal,
-        });
-        clearTimeout(timeoutId);
-        
-        if (response.ok) {
-          return true;
-        }
-      } catch {
-        // Ignore fetch errors or aborts and just retry
-      }
-      
-      if (attempt < maxRetries) {
-        await new Promise(resolve => setTimeout(resolve, retryDelay));
-      }
-    }
+/**
+ * Ping the backend health endpoint once.
+ * Returns true if the backend responded with HTTP 2xx, false otherwise.
+ */
+export const pingBackend = async (timeoutMs = 10_000): Promise<boolean> => {
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    const res = await fetch(apiUrl('/health'), {
+      method: 'GET',
+      cache: 'no-store',
+      signal: controller.signal,
+    });
+    clearTimeout(timer);
+    return res.ok;
+  } catch {
     return false;
-  })();
-
-  return backendWarmupPromise;
+  }
 };
-

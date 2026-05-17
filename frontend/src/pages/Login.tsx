@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     User,
@@ -9,13 +9,12 @@ import {
     Mail
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL, warmUpBackend } from '../apiConfig';
+import { API_BASE_URL } from '../apiConfig';
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
     const [isSignUp, setIsSignUp] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [warmingBackend, setWarmingBackend] = useState(true);
     const [formData, setFormData] = useState({
         name: '',
         username: '',
@@ -23,27 +22,11 @@ const Login: React.FC = () => {
         password: ''
     });
 
-    useEffect(() => {
-        let mounted = true;
-
-        warmUpBackend().finally(() => {
-            if (mounted) {
-                setWarmingBackend(false);
-            }
-        });
-
-        return () => {
-            mounted = false;
-        };
-    }, []);
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
         try {
-            await warmUpBackend();
-
             const endpoint = isSignUp ? '/auth/register' : '/auth/login';
             const payload = isSignUp
                 ? { name: formData.name, username: formData.username, email: formData.email, password: formData.password }
@@ -188,11 +171,7 @@ const Login: React.FC = () => {
                             )}
                         </button>
 
-                        {warmingBackend && !loading && (
-                            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#A0AEC0] text-center pt-1">
-                                Waking backend server, first load may take a few seconds.
-                            </p>
-                        )}
+
                     </form>
 
                     <div className="mt-10 text-center">
